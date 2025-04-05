@@ -59,7 +59,15 @@ def display_message(screen, message, screen_width, screen_height):
     screen.blit(text, text_rect)
     pygame.display.flip()
     pygame.time.delay(2000)
-    
+
+
+def display_score(screen, score):
+    font = pygame.font.Font(None, 24)
+    score_text = font.render(f"Score: {score}", True, (255, 0, 0))
+
+    screen.blit(score_text, (10, 10))
+
+
 def main():
     # Initialise pygame
     pygame.init()
@@ -113,6 +121,9 @@ def main():
 
         for brick in bricks:
             brick.draw(screen)
+
+        # Display the score
+        display_score(screen, score)
 
         # This refreshes the screen to show the updated animation (calling draw functions must be on top)
         pygame.display.flip()
