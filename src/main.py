@@ -37,36 +37,41 @@ def create_bricks(rows, screen_width):
 
     return bricks
 
-def check_end_game(screen, ball, bricks, screen_width, screen_height):
+def check_end_game(screen, ball, bricks, screen_width, screen_height, score):
     game_running = True
     # 1st possibility: LOSE -> when ball falls off the screen (yPos > screen.height)
     if ball.yPos > screen_height:
-        display_message(screen, 'GAME OVER!', screen_width, screen_height)
+        display_message(screen, 'GAME OVER!', screen_width, screen_height, score)
         game_running = False
 
     # 2nd possibility: WIN -> All bricks are destroyed
     if all(brick.is_destroyed for brick in bricks):
-        display_message(screen, 'YOU WIN!', screen_width, screen_height)
+        display_message(screen, 'YOU WIN!', screen_width, screen_height, score)
         game_running = False
 
     return game_running
 
-def display_message(screen, message, screen_width, screen_height):
+def display_message(screen, message, screen_width, screen_height, score):
     font = pygame.font.Font(None, 36)
     text = font.render(message, True, (255, 0, 0))
     text_rect = text.get_rect(center=(screen_width // 2, screen_height // 2))
 
     screen.blit(text, text_rect)
+
+    display_score(screen, score, screen_width, screen_height)
+
     pygame.display.flip()
     pygame.time.delay(2000)
 
-
-def display_score(screen, score):
+def display_score(screen, score, screen_width=None, screen_height=None):
     font = pygame.font.Font(None, 24)
     score_text = font.render(f"Score: {score}", True, (255, 0, 0))
-
-    screen.blit(score_text, (10, 10))
-
+    
+    if screen_width and screen_height:
+        score_rect = score_text.get_rect(center=(screen_width // 2, screen_height // 2 + 40))
+        screen.blit(score_text, score_rect)
+    else:
+        screen.blit(score_text, (10, 10))
 
 def main():
     # Initialise pygame
@@ -112,7 +117,7 @@ def main():
         score = check_collision(ball, paddle, bricks, score)
 
 
-        game_running = check_end_game(screen, ball, bricks, screen_width, screen_height)
+        game_running = check_end_game(screen, ball, bricks, screen_width, screen_height, score)
         if not game_running:
             pygame.quit()
 
