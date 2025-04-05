@@ -6,8 +6,8 @@ class Ball:
         self.radius = 8
         self.xPos = (screen_width - self.radius) // 2
         self.yPos = (screen_height - self.radius) // 2
-        self.speed_x = random.randint(-8, 8)
-        self.speed_y = random.randint(-8, 8)
+        self.speed_x = random.randint(3, 8) * random.choice([-1, 1])
+        self.speed_y = random.randint(3, 8)
         self.screen_width = screen_width
         self.screen_height = screen_height
 
