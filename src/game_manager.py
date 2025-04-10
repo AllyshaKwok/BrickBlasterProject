@@ -2,7 +2,7 @@ import pygame
 import random
 from paddle import Paddle
 from ball import Ball
-from brick import Brick, MegaBrick, IndestructibleBrick
+from brick import Brick, MegaBrick, IndestructibleBrick, PowerUpBrick
 
 class GameManager:
     def __init__(self, screen_width=600, screen_height=400):
@@ -50,10 +50,13 @@ class GameManager:
                     if brick.is_destroyed:
                         self.score += brick.score
 
+                        if hasattr(brick, "gives_powerup") and brick.gives_powerup:
+                            self.extend_paddle()                      
+
 
     def create_bricks(self, rows):
         bricks = []
-        options = ["Brick", "MegaBrick", "IndestructibleBrick"]
+        options = ["Brick", "MegaBrick", "IndestructibleBrick", "PowerUpBrick"]
         for row in range (rows):
             for i in range(self.screen_width // 50):
                 chosen_option = random.choice(options)
@@ -61,12 +64,18 @@ class GameManager:
                     bricks.append(Brick(i * 57, row * 25))
                 elif chosen_option == "MegaBrick":
                     bricks.append(MegaBrick(i * 57, row * 25))
+                elif chosen_option == "PowerUpBrick":
+                    bricks.append(PowerUpBrick(i * 57, row * 25))     
                 else:
                     bricks.append(IndestructibleBrick(i * 57, row * 25))
 
         return bricks
 
 
+    def extend_paddle(self):
+        self.paddle.width += 30  # Or however much you want
+        if self.paddle.width > self.screen_width:
+            self.paddle.width = self.screen_width - 10  # Max limit
 
 
     def display_message(self, message):

@@ -55,3 +55,12 @@ class IndestructibleBrick(Brick):
         }
 
         self.score = 5
+
+
+class PowerUpBrick(Brick):
+    def __init__(self, xPos, yPos):
+        super().__init__(xPos, yPos)
+        self.health = 1
+        self.colours = {1: (0, 255, 255)}  # Light blue
+        self.score = 2
+        self.gives_powerup = True  # New flag

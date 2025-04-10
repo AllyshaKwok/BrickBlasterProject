@@ -10,7 +10,7 @@ class Ball:
         self.speed_y = random.randint(3, 8)
         self.screen_width = screen_width
         self.screen_height = screen_height
-
+    
     def move(self):
         self.xPos += self.speed_x
         self.yPos += self.speed_y
