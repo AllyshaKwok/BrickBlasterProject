@@ -6,7 +6,7 @@ class Paddle:
         self.height = 10
         self.xPos = (screen_width - self.width) // 2
         self.yPos = screen_height - 50
-        self.speed = 8
+        self.speed = 10
         self.screen_width = screen_width
 
     def move_left(self):

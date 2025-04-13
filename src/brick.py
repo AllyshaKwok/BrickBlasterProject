@@ -17,8 +17,8 @@ class Brick:
         self.is_destroyed = False
         self.score = 1
 
-    def hit(self):
-        self.health -= 1
+    def hit(self, damage):
+        self.health -= damage
 
         if self.health <= 0:
             self.is_destroyed = True
@@ -57,10 +57,44 @@ class IndestructibleBrick(Brick):
         self.score = 5
 
 
+class SpawningBrick(Brick):
+    def __init__(self, xPos, yPos):
+        super().__init__(xPos, yPos)
+        
+        # Override the health attribute
+        self.health = 1
+
+        self.colours = {
+            1: (0, 0, 255),
+        }
+
+        self.score = 2
+
+    def hit(self, damage):
+        super().hit(damage)
+
+        if self.is_destroyed:
+            return True
+        
+
+
 class PowerUpBrick(Brick):
     def __init__(self, xPos, yPos):
         super().__init__(xPos, yPos)
+
         self.health = 1
-        self.colours = {1: (0, 255, 255)}  # Light blue
+        
+        self.colours = {
+            1: (0, 255, 255)
+        }  # Light blue
+        
         self.score = 2
+
         self.gives_powerup = True  # New flag
+
+    
+    def hit(self, damage):
+        super().hit(damage)
+
+        if self.is_destroyed:
+            return True
